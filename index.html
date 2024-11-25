@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador de 3 Números</title>
+    <style>
+        /* Estilos básicos para a página */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1c0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fa77d9ce;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #9c009c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #63015b;
+        }
+
+        /* Estilo para os resultados */
+        .results {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .results p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .valid-feedback {
+            color: green;
+        }
+
+        .error-feedback {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Comparador de 3 Números</h1>
+        <form id="number-form">
+            <label for="num1">Número 1:</label>
+            <input type="number" id="num1" name="num1" required>
+            
+            <label for="num2">Número 2:</label>
+            <input type="number" id="num2" name="num2" required>
+            
+            <label for="num3">Número 3:</label>
+            <input type="number" id="num3" name="num3" required>
+            
+            <button type="submit">Comparar</button>
+        </form>
+        
+        <div id="results" class="results">
+            <p id="result-maior"></p>
+            <p id="result-menor"></p>
+            <p id="result-iguais"></p>
+            <p id="result-diferentes"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('number-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtém os valores dos inputs
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const num3 = parseFloat(document.getElementById('num3').value);
+
+            // Verificação se todos os números foram inseridos
+            if (isNaN(num1) || isNaN(num2) || isNaN(num3)) {
+                alert('Por favor, insira números válidos em todos os campos.');
+                return;
+            }
+
+            // Calculando o maior e o menor número
+            const maior = Math.max(num1, num2, num3);
+            const menor = Math.min(num1, num2, num3);
+
+            // Verificando números iguais
+            let iguais = [];
+            if (num1 === num2 && num2 === num3) {
+                iguais = ['Todos os números são iguais'];
+            } else {
+                if (num1 === num2) iguais.push('Número 1 e Número 2 são iguais');
+                if (num1 === num3) iguais.push('Número 1 e Número 3 são iguais');
+                if (num2 === num3) iguais.push('Número 2 e Número 3 são iguais');
+            }
+
+            // Verificando se são todos diferentes
+            const todosDiferentes = (num1 !== num2 && num1 !== num3 && num2 !== num3);
+
+            // Exibindo os resultados
+            document.getElementById('result-maior').textContent = `Maior número: ${maior}`;
+            document.getElementById('result-menor').textContent = `Menor número: ${menor}`;
+            
+            const iguaisElement = document.getElementById('result-iguais');
+            if (iguais.length > 0) {
+                iguaisElement.innerHTML = `Números iguais: <br>${iguais.join('<br>')}`;
+            } else {
+                iguaisElement.innerHTML = 'Não há números iguais.';
+            }
+
+            const diferentesElement = document.getElementById('result-diferentes');
+            diferentesElement.textContent = todosDiferentes ? 'Todos os números são diferentes.' : 'Nem todos os números são diferentes.';
+        });
+    </script>
+</body>
+</html>
